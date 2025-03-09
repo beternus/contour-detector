@@ -2,10 +2,12 @@ from PIL import Image, ImageFilter, ImageDraw
 import numpy as np
 import matplotlib.pyplot as plt
 from scipy.ndimage import binary_erosion, binary_dilation
+from google.colab import files
 
-# Caminhos das imagens
-input_image_path = r'C:\Users\Administrador\Documents\imagem_mamografia_2.jpg'
-output_image_path = r'C:\Users\Administrador\Documents\nodulos_detectados.jpg'
+# Upload da imagem
+uploaded = files.upload()
+input_image_path = list(uploaded.keys())[0]  # Obtém o nome do arquivo carregado
+output_image_path = 'nodulos_output.jpg'
 
 # Carregar a imagem em escala de cinza
 img = Image.open(input_image_path).convert('L')
@@ -85,17 +87,5 @@ plt.subplot(2, 3, 4)
 plt.imshow(edges_erosion, cmap='gray')
 plt.title("Após Erosão")
 
-plt.subplot(2, 3, 5)
-plt.imshow(edges_dilated, cmap='gray')
-plt.title("Após Dilatação")
-
-plt.subplot(2, 3, 6)
-plt.imshow(overlay, cmap='gray')
-plt.title("Contornos Detectados")
-
 plt.tight_layout()
 plt.show()
-
-# Salvar imagem com contornos detectados
-overlay.save(output_image_path)
-print("Imagem com nódulos destacados salva em: " + output_image_path)
